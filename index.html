@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Farm Diary</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Authentication Screen -->
+    <div class="auth-container" id="authContainer">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1 class="auth-title">🌾 Farm Diary</h1>
+                <p class="auth-subtitle">Manage your farm activities</p>
+            </div>
+            
+            <!-- Login Form -->
+            <div class="auth-form" id="loginForm">
+                <h2>Welcome Back</h2>
+                <form id="loginFormElement">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn btn-primary auth-btn">Sign In</button>
+                </form>
+                <p class="auth-switch">
+                    Don't have an account? 
+                    <a href="#" onclick="showSignupForm()">Create one</a>
+                </p>
+            </div>
+            
+            <!-- Signup Form -->
+            <div class="auth-form" id="signupForm" style="display: none;">
+                <h2>Create Account</h2>
+                <form id="signupFormElement">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" required placeholder="Create a password" minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupConfirmPassword">Confirm Password</label>
+                        <input type="password" id="signupConfirmPassword" required placeholder="Confirm your password">
+                    </div>
+                    <div class="form-group">
+                        <label for="farmLocation">Farm Location</label>
+                        <input type="text" id="farmLocation" placeholder="e.g., Praaso, Ghana">
+                    </div>
+                    <button type="submit" class="btn btn-primary auth-btn">Create Account</button>
+                </form>
+                <p class="auth-switch">
+                    Already have an account? 
+                    <a href="#" onclick="showLoginForm()">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="title">🌾 Farm Diary</h1>
+                <p class="subtitle" id="userLocation">Praaso, Ghana</p>
+            </div>
+            <div class="user-info">
+                <span class="user-name" id="userName">Welcome!</span>
+                <button class="btn btn-secondary logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </header>
+        
+        <div class="date-display" id="currentDate"></div>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="activities">📝 Activities</button>
+            <button class="nav-tab" data-tab="crops">🌱 Crops</button>
+            <button class="nav-tab" data-tab="weather">🌤️ Weather</button>
+            <button class="nav-tab" data-tab="expenses">💰 Expenses</button>
+            <button class="nav-tab" data-tab="sales">💵 Sales</button>
+            <button class="nav-tab" data-tab="analytics">📈 Analytics</button>
+            <button class="nav-tab" data-tab="reports">📊 Reports</button>
+            <button class="nav-tab" data-tab="support">🤝 Support</button>
+        </nav>
+
+        <!-- Activities Tab -->
+        <div class="tab-content active" id="activities">
+            <div class="section-header">
+                <h2>Daily Activities</h2>
+                <button class="btn btn-primary" onclick="showActivityModal()">+ Add Activity</button>
+            </div>
+            
+            <div class="activities-list" id="activitiesList">
+                <!-- Activities will be populated here -->
+            </div>
+        </div>
+
+        <!-- Crops Tab -->
+        <div class="tab-content" id="crops">
+            <div class="section-header">
+                <h2>Crop Management</h2>
+                <button class="btn btn-primary" onclick="showCropModal()">+ Add Crop</button>
+            </div>
+            
+            <div class="crops-grid" id="cropsGrid">
+                <!-- Crops will be populated here -->
+            </div>
+        </div>
+
+        <!-- Weather Tab -->
+        <div class="tab-content" id="weather">
+            <div class="section-header">
+                <h2>Weather Log</h2>
+                <button class="btn btn-primary" onclick="showWeatherModal()">+ Log Weather</button>
+            </div>
+            
+            <div class="weather-list" id="weatherList">
+                <!-- Weather entries will be populated here -->
+            </div>
+        </div>
+
+        <!-- Expenses Tab -->
+        <div class="tab-content" id="expenses">
+            <div class="section-header">
+                <h2>Farm Expenses</h2>
+                <button class="btn btn-primary" onclick="showExpenseModal()">+ Add Expense</button>
+            </div>
+            
+            <div class="expenses-summary">
+                <div class="summary-card">
+                    <h3>Total This Month</h3>
+                    <p class="amount" id="monthlyTotal">GH₵ 0.00</p>
+                </div>
+            </div>
+            
+            <div class="expenses-list" id="expensesList">
+                <!-- Expenses will be populated here -->
+            </div>
+        </div>
+
+        <!-- Sales Tab -->
+        <div class="tab-content" id="sales">
+            <div class="section-header">
+                <h2>Crop Sales</h2>
+                <button class="btn btn-primary" onclick="showSalesModal()">+ Record Sale</button>
+            </div>
+            
+            <div class="sales-summary">
+                <div class="summary-card">
+                    <h3>Total Sales This Month</h3>
+                    <p class="amount" id="monthlySalesTotal">GH₵ 0.00</p>
+                </div>
+            </div>
+            
+            <div class="sales-list" id="salesList">
+                <!-- Sales will be populated here -->
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div class="tab-content" id="analytics">
+            <div class="section-header">
+                <h2>Farm Analytics</h2>
+                <div class="analytics-controls">
+                    <select id="analyticsYear" class="year-selector">
+                        <!-- Years will be populated here -->
+                    </select>
+                    <button class="btn btn-primary" onclick="farmDiary.generateAnalytics()">Generate Analytics</button>
+                </div>
+            </div>
+            
+            <div class="analytics-container" id="analyticsContainer">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📈</div>
+                    <h3 class="empty-state-title">No analytics generated yet</h3>
+                    <p class="empty-state-description">Select a year and click "Generate Analytics" to view your farm performance</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reports Tab -->
+        <div class="tab-content" id="reports">
+            <div class="section-header">
+                <h2>Yearly Activity Report</h2>
+                <div class="report-controls">
+                    <select id="reportYear" class="year-selector">
+                        <!-- Years will be populated here -->
+                    </select>
+                    <button class="btn btn-primary" onclick="farmDiary.generateReport()">Generate Report</button>
+                    <button class="btn btn-secondary" onclick="farmDiary.printReport()" id="printBtn" style="display: none;">🖨️ Print Report</button>
+                </div>
+            </div>
+            
+            <div class="report-container" id="reportContainer">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📊</div>
+                    <h3 class="empty-state-title">No report generated yet</h3>
+                    <p class="empty-state-description">Select a year and click "Generate Report" to view your yearly activities</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Tab -->
+        <div class="tab-content" id="support">
+            <div class="section-header">
+                <h2>Agricultural Support</h2>
+                <button class="btn btn-primary" onclick="showSupportModal()">+ Request Support</button>
+            </div>
+            
+            <div class="support-categories">
+                <div class="support-category-card">
+                    <div class="support-icon">🌾</div>
+                    <h3>Agricultural Officers</h3>
+                    <p>Get expert advice on crop management, pest control, and farming techniques</p>
+                    <div class="support-contacts">
+                        <div class="contact-item">
+                            <strong>John Mensah</strong> - Senior Agricultural Officer<br>
+                            📞 +233 24 123 4567 | 📧 j.mensah@mofa.gov.gh<br>
+                            <span class="specialization">Specialization: Crop Production, Soil Management</span>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Grace Asante</strong> - Extension Officer<br>
+                            📞 +233 20 987 6543 | 📧 g.asante@mofa.gov.gh<br>
+                            <span class="specialization">Specialization: Pest Control, Organic Farming</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="support-category-card">
+                    <div class="support-icon">💰</div>
+                    <h3>Financial Support</h3>
+                    <p>Connect with investors and financial institutions for farm funding</p>
+                    <div class="support-contacts">
+                        <div class="contact-item">
+                            <strong>AgriInvest Ghana</strong> - Investment Fund<br>
+                            📞 +233 30 245 6789 | 📧 info@agriinvest.gh<br>
+                            <span class="specialization">Focus: Small-scale farmers, Equipment financing</span>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Rural Development Bank</strong><br>
+                            📞 +233 21 666 331 | 📧 loans@rdb.com.gh<br>
+                            <span class="specialization">Services: Agricultural loans, Microfinance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="support-category-card">
+                    <div class="support-icon">🎓</div>
+                    <h3>Training & Education</h3>
+                    <p>Access training programs and educational resources</p>
+                    <div class="support-contacts">
+                        <div class="contact-item">
+                            <strong>Ghana Agricultural Training Institute</strong><br>
+                            📞 +233 24 789 0123 | 📧 training@gati.edu.gh<br>
+                            <span class="specialization">Programs: Modern farming techniques, Business skills</span>
+                        </div>
+                        <div class="contact-item">
+                            <strong>Farmer Field School Program</strong><br>
+                            📞 +233 20 456 7890 | 📧 ffs@mofa.gov.gh<br>
+                            <span class="specialization">Services: Hands-on training, Peer learning</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="support-category-card">
+                    <div class="support-icon">🚚</div>
+                    <h3>Market Access</h3>
+                    <p>Connect with buyers and market opportunities</p>
+                    <div class="support-contacts">
+                        <div class="contact-item">
+                            <strong>Ghana Commodity Exchange</strong><br>
+                            📞 +233 30 277 4321 | 📧 info@gcx.com.gh<br>
+                            <span class="specialization">Services: Price discovery, Market linkage</span>
+                        </div>
+                        <div class="contact-item">
+                            <strong>FarmConnect Ghana</strong><br>
+                            📞 +233 24 555 0987 | 📧 connect@farmconnect.gh<br>
+                            <span class="specialization">Platform: Direct buyer connections, Fair pricing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="support-requests-section">
+                <h3>Your Support Requests</h3>
+                <div class="support-requests-list" id="supportRequestsList">
+                    <!-- Support requests will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Activity Modal -->
+    <div class="modal" id="activityModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Farm Activity</h3>
+                <span class="close" onclick="closeModal('activityModal')">&times;</span>
+            </div>
+            <form id="activityForm">
+                <div class="form-group">
+                    <label for="activityDate">Date</label>
+                    <input type="date" id="activityDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="activityType">Activity Type</label>
+                    <select id="activityType" required>
+                        <option value="">Select activity</option>
+                        <option value="planting">Planting</option>
+                        <option value="watering">Watering</option>
+                        <option value="weeding">Weeding</option>
+                        <option value="harvesting">Harvesting</option>
+                        <option value="fertilizing">Fertilizing</option>
+                        <option value="pest-control">Pest Control</option>
+                        <option value="land-preparation">Land Preparation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="activityDescription">Description</label>
+                    <textarea id="activityDescription" rows="3" placeholder="Describe the activity..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="activityDuration">Duration (hours)</label>
+                    <input type="number" id="activityDuration" min="0" step="0.5">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('activityModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Activity</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sales Modal -->
+    <div class="modal" id="salesModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Record Crop Sale</h3>
+                <span class="close" onclick="closeModal('salesModal')">&times;</span>
+            </div>
+            <form id="salesForm">
+                <div class="form-group">
+                    <label for="saleDate">Sale Date</label>
+                    <input type="date" id="saleDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="saleCrop">Crop</label>
+                    <select id="saleCrop" required>
+                        <option value="">Select crop</option>
+                        <!-- Will be populated with user's crops -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="saleQuantity">Quantity Sold</label>
+                    <input type="number" id="saleQuantity" min="0" step="0.1" required placeholder="e.g., 50">
+                </div>
+                <div class="form-group">
+                    <label for="saleUnit">Unit</label>
+                    <select id="saleUnit" required>
+                        <option value="">Select unit</option>
+                        <option value="kg">Kilograms (kg)</option>
+                        <option value="bags">Bags</option>
+                        <option value="tonnes">Tonnes</option>
+                        <option value="pieces">Pieces</option>
+                        <option value="bunches">Bunches</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="salePrice">Price per Unit (GH₵)</label>
+                    <input type="number" id="salePrice" min="0" step="0.01" required placeholder="e.g., 2.50">
+                </div>
+                <div class="form-group">
+                    <label for="saleBuyer">Buyer (Optional)</label>
+                    <input type="text" id="saleBuyer" placeholder="e.g., Local Market, Export Company">
+                </div>
+                <div class="form-group">
+                    <label for="saleNotes">Notes (Optional)</label>
+                    <textarea id="saleNotes" rows="2" placeholder="Any additional notes about the sale..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('salesModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Record Sale</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Crop Modal -->
+    <div class="modal" id="cropModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Crop</h3>
+                <span class="close" onclick="closeModal('cropModal')">&times;</span>
+            </div>
+            <form id="cropForm">
+                <div class="form-group">
+                    <label for="cropName">Crop Name</label>
+                    <input type="text" id="cropName" required placeholder="e.g., Tomatoes, Corn, Cassava">
+                </div>
+                <div class="form-group">
+                    <label for="cropVariety">Variety</label>
+                    <input type="text" id="cropVariety" placeholder="e.g., Roma, Sweet corn">
+                </div>
+                <div class="form-group">
+                    <label for="plantingDate">Planting Date</label>
+                    <input type="date" id="plantingDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="expectedHarvest">Expected Harvest Date</label>
+                    <input type="date" id="expectedHarvest">
+                </div>
+                <div class="form-group">
+                    <label for="expectedYield">Expected Yield</label>
+                    <input type="number" id="expectedYield" min="0" step="0.1" placeholder="e.g., 100">
+                </div>
+                <div class="form-group">
+                    <label for="yieldUnit">Yield Unit</label>
+                    <select id="yieldUnit">
+                        <option value="">Select unit</option>
+                        <option value="kg">Kilograms (kg)</option>
+                        <option value="bags">Bags</option>
+                        <option value="tonnes">Tonnes</option>
+                        <option value="pieces">Pieces</option>
+                        <option value="bunches">Bunches</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cropArea">Area (acres)</label>
+                    <input type="number" id="cropArea" min="0" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label for="actualYield">Actual Yield (if harvested)</label>
+                    <input type="number" id="actualYield" min="0" step="0.1" placeholder="Leave empty if not harvested yet">
+                </div>
+                <div class="form-group">
+                    <label for="cropNotes">Notes</label>
+                    <textarea id="cropNotes" rows="2" placeholder="Any additional notes..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('cropModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Crop</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Weather Modal -->
+    <div class="modal" id="weatherModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Log Weather</h3>
+                <span class="close" onclick="closeModal('weatherModal')">&times;</span>
+            </div>
+            <form id="weatherForm">
+                <div class="form-group">
+                    <label for="weatherDate">Date</label>
+                    <input type="date" id="weatherDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="weatherCondition">Weather Condition</label>
+                    <select id="weatherCondition" required>
+                        <option value="">Select condition</option>
+                        <option value="sunny">☀️ Sunny</option>
+                        <option value="cloudy">☁️ Cloudy</option>
+                        <option value="rainy">🌧️ Rainy</option>
+                        <option value="stormy">⛈️ Stormy</option>
+                        <option value="foggy">🌫️ Foggy</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="temperature">Temperature (°C)</label>
+                    <input type="number" id="temperature" min="0" max="50">
+                </div>
+                <div class="form-group">
+                    <label for="rainfall">Rainfall (mm)</label>
+                    <input type="number" id="rainfall" min="0" step="0.1">
+                </div>
+                <div class="form-group">
+                    <label for="weatherNotes">Notes</label>
+                    <textarea id="weatherNotes" rows="2" placeholder="Weather observations..."></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('weatherModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Weather</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Expense Modal -->
+    <div class="modal" id="expenseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add Expense</h3>
+                <span class="close" onclick="closeModal('expenseModal')">&times;</span>
+            </div>
+            <form id="expenseForm">
+                <div class="form-group">
+                    <label for="expenseDate">Date</label>
+                    <input type="date" id="expenseDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="expenseCategory">Category</label>
+                    <select id="expenseCategory" required>
+                        <option value="">Select category</option>
+                        <option value="seeds">Seeds</option>
+                        <option value="fertilizer">Fertilizer</option>
+                        <option value="pesticides">Pesticides</option>
+                        <option value="tools">Tools</option>
+                        <option value="labor">Labor</option>
+                        <option value="transport">Transport</option>
+                        <option value="irrigation">Irrigation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="expenseAmount">Amount (GH₵)</label>
+                    <input type="number" id="expenseAmount" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="expenseDescription">Description</label>
+                    <input type="text" id="expenseDescription" placeholder="What was purchased/paid for?">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('expenseModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Expense</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Support Request Modal -->
+    <div class="modal" id="supportModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Request Agricultural Support</h3>
+                <span class="close" onclick="closeModal('supportModal')">&times;</span>
+            </div>
+            <form id="supportForm">
+                <div class="form-group">
+                    <label for="supportType">Type of Support Needed</label>
+                    <select id="supportType" required>
+                        <option value="">Select support type</option>
+                        <option value="technical">Technical Advice</option>
+                        <option value="financial">Financial Support</option>
+                        <option value="training">Training & Education</option>
+                        <option value="market">Market Access</option>
+                        <option value="equipment">Equipment & Tools</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="supportUrgency">Urgency Level</label>
+                    <select id="supportUrgency" required>
+                        <option value="">Select urgency</option>
+                        <option value="low">Low - General inquiry</option>
+                        <option value="medium">Medium - Need help within a week</option>
+                        <option value="high">High - Urgent assistance needed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="supportSubject">Subject</label>
+                    <input type="text" id="supportSubject" required placeholder="Brief description of your need">
+                </div>
+                <div class="form-group">
+                    <label for="supportDescription">Detailed Description</label>
+                    <textarea id="supportDescription" rows="4" required placeholder="Describe your situation and what kind of support you need..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="supportContact">Preferred Contact Method</label>
+                    <select id="supportContact" required>
+                        <option value="">Select contact method</option>
+                        <option value="phone">Phone Call</option>
+                        <option value="email">Email</option>
+                        <option value="visit">Farm Visit</option>
+                        <option value="meeting">Office Meeting</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="supportPhone">Phone Number</label>
+                    <input type="tel" id="supportPhone" placeholder="Your phone number">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('supportModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
