@@ -24,6 +24,9 @@ body {
     align-items: center;
     justify-content: center;
     z-index: 2000;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px 0;
 }
 
 .auth-card {
@@ -34,6 +37,11 @@ body {
     max-width: 400px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     overflow: hidden;
+    margin: auto;
+    min-height: fit-content;
+    max-height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
 }
 
 .auth-header {
@@ -56,6 +64,9 @@ body {
 
 .auth-form {
     padding: 32px 24px;
+    overflow-y: auto;
+    flex: 1;
+    -webkit-overflow-scrolling: touch;
 }
 
 .auth-form h2 {
@@ -990,13 +1001,22 @@ form {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .auth-container {
+        padding: 10px 0;
+        align-items: flex-start;
+        justify-content: center;
+        min-height: 100vh;
+    }
+
     .auth-card {
         width: 95%;
-        margin: 20px;
+        margin: 10px auto;
+        max-height: calc(100vh - 20px);
+        min-height: auto;
     }
 
     .auth-header {
-        padding: 24px 20px;
+        padding: 20px 16px;
     }
 
     .auth-title {
@@ -1004,11 +1024,37 @@ form {
     }
 
     .auth-form {
-        padding: 24px 20px;
+        padding: 20px 16px;
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
     }
 
     .auth-form h2 {
         font-size: 1.3rem;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 16px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 12px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+
+    .auth-btn {
+        padding: 14px;
+        font-size: 1rem;
+        margin-top: 12px;
+        margin-bottom: 12px;
+    }
+
+    .auth-switch {
+        margin-top: 16px;
+        margin-bottom: 16px;
+        font-size: 0.9rem;
     }
 
     .container {
@@ -1278,13 +1324,20 @@ form {
 }
 
 @media (max-width: 480px) {
+    .auth-container {
+        padding: 5px 0;
+        align-items: flex-start;
+    }
+
     .auth-card {
         width: 98%;
-        margin: 10px;
+        margin: 5px auto;
+        max-height: calc(100vh - 10px);
+        border-radius: 16px;
     }
 
     .auth-header {
-        padding: 20px 16px;
+        padding: 16px 12px;
     }
 
     .auth-title {
@@ -1292,11 +1345,42 @@ form {
     }
 
     .auth-form {
-        padding: 20px 16px;
+        padding: 16px 12px;
+        max-height: calc(100vh - 150px);
     }
 
     .auth-form h2 {
         font-size: 1.2rem;
+        margin-bottom: 16px;
+    }
+
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    .form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 4px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 12px 10px;
+        font-size: 16px; /* Prevents zoom on iOS */
+        border-radius: 6px;
+    }
+
+    .auth-btn {
+        padding: 12px;
+        font-size: 0.95rem;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
+    .auth-switch {
+        margin-top: 12px;
+        margin-bottom: 12px;
+        font-size: 0.85rem;
     }
 
     .container {
@@ -1463,6 +1547,55 @@ form {
 
 /* Extra small devices (portrait phones, less than 375px) */
 @media (max-width: 374px) {
+    .auth-container {
+        padding: 2px 0;
+    }
+
+    .auth-card {
+        width: 99%;
+        margin: 2px auto;
+        border-radius: 12px;
+    }
+
+    .auth-header {
+        padding: 12px 8px;
+    }
+
+    .auth-title {
+        font-size: 1.2rem;
+    }
+
+    .auth-form {
+        padding: 12px 8px;
+        max-height: calc(100vh - 120px);
+    }
+
+    .auth-form h2 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 10px 8px;
+        font-size: 16px;
+    }
+
+    .auth-btn {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+
+    .auth-switch {
+        font-size: 0.8rem;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+
     .title {
         font-size: 1.1rem;
     }
@@ -1503,6 +1636,108 @@ form {
 
     .weather-details {
         grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Landscape orientation on mobile devices */
+@media (max-height: 500px) and (orientation: landscape) {
+    .auth-container {
+        padding: 5px 0;
+        align-items: flex-start;
+    }
+
+    .auth-card {
+        max-height: calc(100vh - 10px);
+        width: 90%;
+        max-width: 600px;
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+    }
+
+    .auth-header {
+        flex: 0 0 40%;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .auth-title {
+        font-size: 1.3rem;
+        margin-bottom: 4px;
+    }
+
+    .auth-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .auth-form {
+        flex: 1;
+        padding: 16px;
+        max-height: calc(100vh - 10px);
+        overflow-y: auto;
+    }
+
+    .auth-form h2 {
+        font-size: 1.2rem;
+        margin-bottom: 16px;
+    }
+
+    .form-group {
+        margin-bottom: 12px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+
+    .auth-btn {
+        padding: 10px;
+        font-size: 0.9rem;
+        margin-top: 8px;
+    }
+
+    .auth-switch {
+        margin-top: 12px;
+        font-size: 0.8rem;
+    }
+}
+
+/* Very short landscape screens */
+@media (max-height: 400px) and (orientation: landscape) {
+    .auth-header {
+        padding: 12px;
+    }
+
+    .auth-title {
+        font-size: 1.1rem;
+    }
+
+    .auth-form {
+        padding: 12px;
+    }
+
+    .auth-form h2 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+
+    .form-group {
+        margin-bottom: 8px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 6px 8px;
+        font-size: 14px;
+    }
+
+    .auth-btn {
+        padding: 8px;
+        font-size: 0.85rem;
     }
 }
 
